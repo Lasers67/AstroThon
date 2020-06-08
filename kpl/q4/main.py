@@ -1,4 +1,4 @@
-# all imports below
+import ephem
 from datetime import datetime
 
 """
@@ -19,4 +19,16 @@ def findSaturn(obstime):
 	-------
 	A `tuple` of two floats.
 	'''
-	return NotImplementedError
+	saturn = ephem.Saturn()
+	saturn.compute(obstime)
+	body = ephem.FixedBody()
+	body._ra = saturn.ra
+	body._dec = saturn.dec
+	Gravity = ephem.Observer()
+	Gravity.lat = '31.7754'
+	Gravity.lon = '76.9861'
+	Gravity.date = obstime
+	body.compute(obstime)
+	print( 'Az:', body.az, 'Alt:', body.alt)
+
+findSaturn(startobs)
