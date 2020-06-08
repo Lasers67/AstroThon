@@ -1,5 +1,6 @@
 import ephem
 from datetime import datetime
+from datetime import time
 
 """
 Any extra lines of code (if required)
@@ -28,7 +29,7 @@ def findSaturn(obstime):
 	Gravity.lat = '31.7754'
 	Gravity.lon = '76.9861'
 	Gravity.date = obstime
-	body.compute(obstime)
-	print( 'Az:', body.az, 'Alt:', body.alt)
+	body.compute(Gravity)
+	return((body.az, body.alt))
 
-findSaturn(startobs)
+print(findSaturn(startobs))
