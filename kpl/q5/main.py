@@ -8,49 +8,29 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import requests
 from datetime import datetime
+import matplotlib.pyplot
+
+import numpy as np
+import urllib.request
+
 """
 Any extra lines of code (if required)
 as helper for this function.
 """
 url = "http://solar.physics.montana.edu/HINODE/XRT/QL/syn_comp_fits/"
-#html = urlopen(url)
 page = requests.get(url)
-
 soup = BeautifulSoup(page.text, 'html.parser')
-#soup = BeautifulSoup(html, 'html.parser')
-title = soup.title
-print(title)
 all_links = soup.find_all("a")
 for i in range(len(all_links)):
 	#print (link['href'])
 	all_links[i]=all_links[i]['href']
 all_links=all_links[5::]
-#print(all_links[0:2])
-from PIL import Image
-import numpy as np
-
-w, h = 512, 512
-
-"""
-Any extra lines of code (if required)
-as helper for this function.
-"""
-p=1;
-import urllib.request
-
-print('Beginning file download with urllib2...')
-
-
 class ScraperXRT:
-    '''
-    Description
-    -----------
-    A class to scrap XRT files from the telescope archive.
-    '''
-    global a
-    global b
-    a=[]
-    b=[]
+    
+    global link_array
+    global path_array
+    link_array=[]
+    path_array=[]
     def __init__(self, typeof_file, startime, endtime):
 	    for link in all_links:
 		    x = link.split("_")
@@ -66,46 +46,30 @@ class ScraperXRT:
 		    time=datetime(y,m,d)
 		    #print(time)
 		    if(filetype==typeof_file and time>=startime and time<=endtime):
-		        a.append(link)
+		        link_array.append(link)
 
     def query(self):
-	    return a
+	    return link_array
 
     def get(self):
-	    for link in a:
-	    	url="http://solar.physics.montana.edu/HINODE/XRT/QL/syn_comp_fits/" + link
-	    	urllib.request.urlretrieve(url, link)
-	    	l="./"+link
-	    	b.append(l)
+        print("beginning download")
+        for link in link_array:
+            url="http://solar.physics.montana.edu/HINODE/XRT/QL/syn_comp_fits/" + link
+            urllib.request.urlretrieve(url, link)
+            l="./"+link
+            path_array.append(l)
 
-	    return b
+        return path_array
 
     def view(self, filepath):
-	    '''
-	    Parameters
-		----------
-	    filepath: A `string` representing absolute path of file in system.
 
-		Returns
-		-------
-		An instance of `matplotlib.image.AxesImage`, returned using `plt.imshow(data)`.
-		'''
-		hdul = fits.open(filepath)
-		data=hdul[0].data
-        img = Image.fromarray(data, 'RGB')
-        img.show()
+    	hdul=fits.open(filepath)
+    	data=hdul[0].data
+    	
+    	img=matplotlib.pyplot.imshow(data)
+    	
+    	return img
 
-	    return img
 
-#data = np.zeros((h, w, 3), dtype=np.uint8)
-#data[0:256, 0:256] = [255, 0, 0] # red patch in upper left
 
-hdul = fits.open('XRT_Al_mesh_20140110_181442.9.fits')
-#hdul = fits.open(fits_image_filename)
-data=hdul[0].data
-#print(hdul[0].data[30:40, 10:20])
-img = Image.fromarray(data, 'RGB')
-#img.save('my.png')
-#img.show()
-x=ScraperXRT('Al_mesh',datetime(2015,1,1),datetime(2015,1,3))
-print(x.get())
+x=ScraperXRT('Al_mesh',datetime(2015,1,1),datetime(2015,1,2))
