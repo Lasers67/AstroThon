@@ -15,4 +15,13 @@ def findDistance(vrec):
 	-------
 	a `float`
 	'''
-	return NotImplementedError
+
+	distanceinmpc = vrec/71
+
+	#1 Mpc=3.2 x 106 light-years
+
+	distanceinly = distanceinmpc*3.2*1000000
+
+	return distanceinly
+
+# print(findDistance(68300))
