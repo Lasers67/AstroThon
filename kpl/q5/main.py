@@ -46,7 +46,7 @@ class ScraperXRT:
 		for link in all_links:
 			x = link.split("_")
 			filetype = x[1]+x[2]
-			time = datetime()
+			time = datetime(x[3][0:4],x[3][4:6],x[3][6:8],x[4][0:2],x[4][2:4],x[4][4:6])
 			if(time>=startime and time<=endtime):
 				a.append(x)
 
