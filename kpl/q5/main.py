@@ -32,21 +32,23 @@ class ScraperXRT:
     link_array=[]
     path_array=[]
     def __init__(self, typeof_file, startime, endtime):
-	    for link in all_links:
-		    x = link.split("_")
-		    #print(x)
-		    filetype=x[1]+"_"+x[2]
-		    t=x[-2]
-		    tt=x[-1]
-		    y=int(t[0:4])
-		    m=int(t[4:6])
-		    d=int(t[6:8])
+        for link in all_links:
+            x = link.split("_")
+            filetype=""
+            if(len(x)==4):
+                filetype=x[1]
+            else:filetype=x[1]+"_"+x[2]
+            t=x[-2]
+            tt=x[-1]
+            y=int(t[0:4])
+            m=int(t[4:6])
+            d=int(t[6:8])
 
 		    #print(m)
-		    time=datetime(y,m,d)
+            time=datetime(y,m,d)
 		    #print(time)
-		    if(filetype==typeof_file and time>=startime and time<=endtime):
-		        link_array.append(link)
+            if(filetype==typeof_file and time>=startime and time<=endtime):
+                link_array.append(link)
 
     def query(self):
 	    return link_array
@@ -72,4 +74,4 @@ class ScraperXRT:
 
 
 
-x=ScraperXRT('Al_mesh',datetime(2015,1,1),datetime(2015,1,2))
+x=ScraperXRT('Al_poly',datetime(2016,1,1),datetime(2018,1,2))

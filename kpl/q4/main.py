@@ -28,6 +28,7 @@ def findSaturn(obstime):
 	A `tuple` of two floats.
 	'''
 
+
 	m33 = SkyCoord.from_name('M33')
 	bear_mountain = EarthLocation(lat=31.7754*u.deg, lon=-76.9861*u.deg, height=1000*u.m)
 	utcoffset = -4*u.hour  # Eastern Daylight Time
