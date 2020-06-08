@@ -30,6 +30,7 @@ def findSaturn(obstime):
 	Gravity = ephem.Observer()
 	Gravity.lat = '31.7754'
 	Gravity.lon = '76.9861'
+	Gravity.elevation = 1000
 	Gravity.date = obstime
 	body.compute(Gravity)
 
